@@ -99,6 +99,14 @@ real ones, re-confirm all:
 | `https://pestphp.com/llms.txt` · `/llms-full.txt` | real llms.txt (index + full docs) |
 | `https://fluxui.dev/llms.txt` | real llms.txt (per-page `.md` links) |
 | `livewire.laravel.com/docs/llms.txt` · `alpinejs.dev/llms.txt` | **HTML — must stay recorded as absent** |
+| `https://context7.com/{org}/{repo}/llms.txt` | 200 with Context7's **own** text format, not `llms.txt`. Re-confirm it is still a fallback and still secondary — it must never outrank an upstream source for the installed version |
+
+Also re-check the **Context7 MCP package**, which is how the long tail stays reachable without this
+plugin maintaining 30 packages:
+
+```powershell
+Invoke-RestMethod "https://registry.npmjs.org/@upstash/context7-mcp/latest" | Select-Object version
+```
 
 Finally, re-check the repository AI files that are worth knowing about, and keep the classification
 honest: `AGENTS.md`/`CLAUDE.md` in `filamentphp/filament`, `pestphp/pest`, `livewire/livewire`, and

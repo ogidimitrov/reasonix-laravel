@@ -146,6 +146,11 @@ major in every URL.
   - Filament: `https://filamentphp.com/docs/llms.txt`
 - Library with **no** official `llms.txt` (Tailwind, Livewire, Inertia) → say so explicitly
   and use the versioned prose docs instead. Do not fabricate a machine-readable source.
+- Nothing upstream exists at all, or the library is outside this plugin's coverage → **Context7** is
+  the fallback: `https://context7.com/{org}/{repo}/llms.txt`, or the MCP server
+  (`reasonix mcp add context7 -- npx -y @upstash/context7-mcp`). It is **secondary**: not `llms.txt`
+  format, version selection by `topic` rather than path, and its corpus is derived from the project's
+  own docs. Never let it outrank an upstream source for the installed version.
 - `laravel/boost` present → note it as an additional optional source of version-matched
   guidelines. This plugin does not require it and must work identically without it.
 

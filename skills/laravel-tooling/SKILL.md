@@ -123,6 +123,15 @@ project-root `.mcp.json`.
   application info, DB schema/query, log, and version-filtered docs tools. **This plugin does not
   require Boost** — but if a project already has it, its tools are a strong complement, and the
   stack profile should record its presence.
+- **Context7** (`@upstash/context7-mcp` 4.1.1) extends doc lookup to the long tail of libraries this
+  plugin deliberately does not cover. Wire it with:
+  ```bash
+  reasonix mcp add context7 -- npx -y @upstash/context7-mcp
+  ```
+  Treat its output as a **secondary** source: it is derived from each project's own docs, it is not
+  `llms.txt` format, and its version selection is topic-based rather than path-based. Prefer the
+  upstream version-scoped docs for the installed version. See
+  `laravel-versions/references/ecosystem-matrix.md` → *Third-party corpora*.
 - An MCP server that shells into the app must be pointed at the right runtime (Sail vs host PHP).
   A server configured with bare `php` in a Sail project will fail or use the wrong version.
 

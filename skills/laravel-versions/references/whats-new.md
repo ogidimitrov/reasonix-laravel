@@ -32,6 +32,7 @@ page, as markdown.** No search, no guessing, no stale cache.
 | **Filament index** | `https://filamentphp.com/docs/llms.txt` | versioned index of every page, incl. `5.x/introduction/ai.md` |
 | **Pest** | `https://pestphp.com/llms.txt` · `https://pestphp.com/llms-full.txt` | index + the **entire docs in one file**; per-page `/docs/{page}/llms.txt` |
 | **Flux UI** | `https://fluxui.dev/docs/{page}.md` (index: `https://fluxui.dev/llms.txt`) | upgrade guide at `docs/upgrading.md` |
+| **Context7** (fallback, third-party) | `https://context7.com/{org}/{repo}/llms.txt` | **Not `llms.txt` format**; version selection is by API `topic`, not path. Use only when no upstream surface exists |
 | **Livewire** | `https://livewire.laravel.com/docs/{x}.x/{page}` | `/docs/upgrading` resolved into `/docs/4.x/upgrading` |
 | **daisyUI** | `https://daisyui.com/llms.txt` | self-declares `version: 5.7.x` |
 | **Tailwind CSS** | `https://tailwindcss.com/docs` (v4) · `https://v3.tailwindcss.com` (v3) | **no `llms.txt`** — deliberate upstream decision |

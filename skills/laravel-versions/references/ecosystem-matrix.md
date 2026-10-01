@@ -158,6 +158,36 @@ it as absent — and say so rather than citing it.
 | **NativePHP** | **None.** Versioned docs per product/major on `nativephp.com` | 2026-09-29 |
 | **maryUI** | **None.** Docs at `mary-ui.com/docs/installation` (the `/docs` root 404s) | 2026-09-29 |
 
+### Third-party corpora — Context7
+
+Context7 (Upstash) indexes thousands of libraries and serves a text corpus per library. Useful as a
+**fallback for the long tail** this plugin deliberately does not cover — not as a primary source.
+
+| Surface | URL |
+| --- | --- |
+| Library corpus | `https://context7.com/{org}/{repo}/llms.txt` — returns Context7's **own** format (prose + source URL + code block), **not** the `llms.txt` spec. Verified: Livewire 35 KB · Inertia 55 KB · Alpine 45 KB · Laravel framework 51 KB |
+| Search | `https://context7.com/api/v1/search?query={q}` → JSON `results[]` with `id`, `title`, `totalSnippets` |
+| Library | `https://context7.com/api/v1/{org}/{repo}?type=txt&topic={topic}` |
+| MCP server | `@upstash/context7-mcp` 4.1.1 → `reasonix mcp add context7 -- npx -y @upstash/context7-mcp` |
+
+**Three caveats that matter:**
+
+1. **It is not `llms.txt`.** The path looks like one, but the body is Context7's own snippet format.
+   Do not cite it as an official upstream surface.
+2. **Version addressing is by `topic`, not by path.** `…/livewire/livewire/4.x/llms.txt` is a **404**.
+   Version selection happens through the API's `topic` parameter, so it cannot be relied on for
+   version-exact syntax the way `laravel.com/framework/docs/{x}.x/{page}.md` can.
+3. **The corpus is derived from the project's own docs**, so its quality mirrors theirs. maryUI's
+   corpus (1.9 KB) is entirely about *contributing* to the package — clone the repo, `yarn dev` — and
+   says nothing about using it in an application.
+
+Where it does not help: **Tailwind and NativePHP have no corpus at those paths** (404 — consistent
+with Tailwind declining to publish machine-readable docs at all).
+
+**Source preference, in order:** upstream version-scoped `.md` docs (Laravel, Filament, Flux, Pest) →
+upstream `llms.txt` where it exists (daisyUI, Filament, Pest, Flux) → Context7 for anything neither
+covers. **Never let Context7 override an upstream source for the installed version.**
+
 ### Repository AI files — present, but not app guidance
 
 Several projects ship `AGENTS.md` / `CLAUDE.md` in the repo. **Check what they are before citing

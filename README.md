@@ -2,7 +2,7 @@
 
 A Reasonix plugin that gives agents reliable, **version-aware** Laravel engineering behaviour.
 
-**Plugin version:** 0.1.0 · **skills:** 27 · **commands:** 4 · **references:** 14
+**Plugin version:** 0.2.0 · **skills:** 27 · **commands:** 4 · **references:** 14
 
 It works in four stages: **detect** the application's stack, **route** that stack to the exact skills
 and version rules that apply, **enforce** Laravel-specific design, security, and performance
@@ -43,6 +43,12 @@ The plugin attacks this in three tiers, cheapest first:
 | **1. Embedded, verified** | Dated, sourced knowledge of what each major introduced and what it broke | `whats-new.md`, `version-deltas.md`, `ecosystem-matrix.md`, plus each stack skill's version split |
 | **2. Version-scoped fetch** | Request the exact major's exact page, as markdown. No search, no guessing | `https://laravel.com/framework/docs/{x}.x/{page}.md` · `https://filamentphp.com/docs/{x}.x/{path}.md` |
 | **3. Official indices** | The library's own machine-readable surface, which declares its version | `https://daisyui.com/llms.txt` · `https://filamentphp.com/docs/llms.txt` · `https://pestphp.com/llms-full.txt` · `https://fluxui.dev/llms.txt` |
+| **4. Third-party corpora (fallback)** | When nothing upstream exists, or the library is outside this plugin's coverage | `https://context7.com/{org}/{repo}/llms.txt` · or the MCP server `reasonix mcp add context7 -- npx -y @upstash/context7-mcp` |
+
+Tier 4 is **secondary and must never outrank tiers 1–3**: it is not `llms.txt` format, its version
+selection is topic-based rather than path-based (`…/4.x/llms.txt` is a 404), and its corpus is
+derived from each project's own docs — so a contributor-focused repo yields a contributor-focused
+corpus. maryUI's 1.9 KB, for instance, documents cloning the repo, not using the library.
 
 Tier 2 is the important discovery: **both Laravel and Filament serve every documentation page as
 version-scoped markdown.** `13.x/queries.md` and `12.x/queries.md` both resolve, and differ in
@@ -486,6 +492,7 @@ recalled. All verified **2026-09-29**.
 | Filament `llms.txt` live, 44 KB, versioned index | `https://filamentphp.com/docs/llms.txt` |
 | Pest `llms.txt` (9 KB) + `llms-full.txt` (~400 KB, entire docs) | `https://pestphp.com/llms.txt` |
 | Flux UI `llms.txt` + per-page markdown + v1→v2 upgrade guide | `https://fluxui.dev/llms.txt` |
+| Context7 corpora — Livewire 35 KB, Inertia 55 KB, Alpine 45 KB; Tailwind and NativePHP **404** | `https://context7.com/{org}/{repo}/llms.txt` — own format, **not** `llms.txt` |
 | Tailwind publishes **no** `llms.txt` (deliberate upstream decision) | upstream proposal rejected |
 | **Livewire and Alpine have no `llms.txt`** — their `…/llms.txt` paths return **200 with HTML** (SPA fallback) | content check, not status code |
 | Reasonix plugin manifest contract | `reasonix-cli` v1.39.5, probed |
