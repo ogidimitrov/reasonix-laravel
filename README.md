@@ -2,12 +2,13 @@
 
 A Reasonix plugin that gives agents reliable, **version-aware** Laravel engineering behaviour.
 
-**Plugin version:** 0.2.0 · **skills:** 27 · **commands:** 4 · **references:** 14
+**Plugin version:** 0.3.0 · **skills:** 28 · **commands:** 5 · **references:** 14
 
-It works in four stages: **detect** the application's stack, **route** that stack to the exact skills
-and version rules that apply, **enforce** Laravel-specific design, security, and performance
-discipline while writing code, and **verify** the result against the app and the installed versions
-before claiming it is done.
+It works in five stages: **detect** the application's stack, **route** that stack to the exact skills
+and version rules that apply, **grill** the plan when a decision is expensive to reverse — refusing to
+write code while syntax confidence is missing — **enforce** Laravel-specific design, security, and
+performance discipline while writing, and **verify** the result against the app and the installed
+versions before claiming it is done.
 
 ## Why it exists
 
@@ -240,6 +241,7 @@ reasonix plugin install <path-to-this-repo> --dry-run
 New app:   /laravel:new     →  choose the stack (interview) → record → scaffold → verify
 Existing:  /laravel:stack   →  detect and record the stack profile
 Both:      /laravel:route   →  map that profile to skills + version knowledge
+           /laravel:grill   →  confidence gate (only when a decision is expensive to reverse)
                 … work …
            ── verification loop (mandated) ──
            recon   →  read the real schema / routes / config / existing abstractions
@@ -426,6 +428,7 @@ them. Nothing in this plugin requires it.
 | Skill | Purpose |
 | --- | --- |
 | `laravel-stack-interview` | **Greenfield entry.** Asks the user to choose the stack before anything is created — or to fill any code-changing axis detection cannot resolve |
+| `laravel-grill` | **The confidence gate.** Interrogates the plan *before* code exists, walking **intent → packages → version → syntax → fit** and refusing to advance past an unresolved link. Facts are looked up, decisions are asked |
 | `laravel-stack` | **Entry point (existing apps).** Detect framework/PHP version, skeleton era, rendering, CSS/JS layer, auth, data, queue, testing, tooling. Writes `.reasonix/laravel-stack.md` |
 | `laravel-route` | **Router.** Maps the profile to exact skills + version gates, and emits the applicable version knowledge pack |
 | `laravel-recon` | **Ground truth.** Read this app's real schema, routes, models, config, and existing abstractions before writing code that must match them |
@@ -453,7 +456,7 @@ them. Nothing in this plugin requires it.
 | `laravel-review` | Read-only subagent review scoped to version correctness, security, N+1 |
 | `laravel-stack-forge` | **Meta.** Generates project-scoped skills from the detected stack |
 
-Commands: `/laravel:new`, `/laravel:stack`, `/laravel:route`, `/laravel:skill`.
+Commands: `/laravel:new`, `/laravel:grill`, `/laravel:stack`, `/laravel:route`, `/laravel:skill`.
 
 References load on demand:
 
@@ -542,8 +545,9 @@ markdown.
 
 | Part | Tokens | When it is paid |
 | --- | --- | --- |
-| Skills index (27) + commands index (4) | **740** | Always — sits in the cache-stable system prefix |
-| Typical task (9 skills + 1 reference, incl. the verification loop) | ~17,300 | Once, when the skills are loaded |
+| Skills index (28) + commands index (5) | **783** | Always — sits in the cache-stable system prefix |
+| Typical task (9 skills + 1 reference, incl. the verification loop) | ~17,400 | Once, when the skills are loaded |
+| + `laravel-grill`, when a decision is expensive to reverse | +1,700 | Conditional — deliberately not always-on |
 | + `whats-new.md`, when the installed version postdates the model's knowledge | +2,600 | Only on versions the model does not know |
 | + `patterns.md`, when a design decision is being made | +1,700 | Only when structure is being chosen |
 | + `security-checklist.md`, on an auth/input/output change | +1,700 | Only on security-relevant surfaces |
@@ -551,8 +555,8 @@ markdown.
 | + `syntax-by-version.md`, when a syntax feature's availability is in question | +2,200 | Only on versions whose syntax is uncertain |
 | + `components-and-rules.md`, when writing daisyUI markup | +1,400 | Only on daisyUI surfaces |
 | A version or syntax question end to end | ~9,100 | Loads two skills and two references — cheaper than a feature task |
-| Every skill routed | ~41,400 | Only if routing over-loads, which the router forbids |
-| Absolute worst (all skills + all references) | ~72,800 | Not reachable in practice |
+| Every skill routed | ~43,600 | Only if routing over-loads, which the router forbids |
+| Absolute worst (all skills + all references) | ~75,700 | Not reachable in practice |
 
 Off-peak Flash, one 20-turn session:
 
@@ -562,7 +566,7 @@ Off-peak Flash, one 20-turn session:
 | Typical task — first load (a cache miss) | $0.0026 |
 | **Typical task — 20 turns total** | **~$0.0036** |
 | Performance/security task — 20 turns | ~$0.0028 |
-| Worst case (all skills + references) — 20 turns | **~$0.0151** |
+| Worst case (all skills + references) — 20 turns | **~$0.0157** |
 
 **Under one cent per session** — which is the point. At these rates the trade-off disappears: a
 typical task loads ~17,300 tokens for **$0.0036** across 20 turns, while a single user-caught

@@ -1,7 +1,7 @@
 {
   "apiVersion": "reasonix.io/plugin/v2",
   "name": "laravel",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Version-aware Laravel engineering skills: stack detection first, per-version guidance, SOLID design, and stack-specific playbooks.",
   "contributes": {
     "skills": ["skills"],

@@ -26,6 +26,7 @@ wrong for *this* app — cannot be prevented by documentation, only by reading t
 | --- | --- | --- |
 | Any change that references an app-specific name (table, column, relation, route, config key, class, method, view, event, policy) | **`laravel-recon`** | Read the ground truth before writing. The dominant source of fix iterations is an assumed fact about the environment |
 | Any change that creates a class, trait, helper, job, or view | **`laravel-recon`** | Search before create — the second dominant source is a duplicate of an abstraction that already exists |
+| **A change with decisions that are expensive to reverse** — data shape, auth model, public API contract, a new class family, a package choice, a migration — or the user asks to be grilled | **`laravel-grill`** | The pre-write confidence gate: walks *intent → packages → version → syntax → fit* and refuses to advance past an unresolved link. **Conditional, not always-on** — it backfires as a tax on trivial changes |
 | **Always**, before declaring work done | **`laravel-verify`** | Build the assumption ledger, run the cheapest checks that falsify the likely error, report honestly |
 | Immediately after a human correction, or a repeated self-observed mistake | **`laravel-project-rules`** | Convert the spent iteration into a durable project rule. The only mechanism here that compounds |
 
@@ -33,6 +34,8 @@ Routing notes:
 - `laravel-recon` and `laravel-verify` are **not optional**. If the profile is known but the app's
   actual schema/routes/config were never read, the route is incomplete and class-B iterations are
   inevitable.
+- `laravel-grill` **is** conditional. Route it by the *reversibility* of the decisions, never by diff
+  size — a one-line change to an auth check deserves it; a 200-line view refactor does not.
 - Skip `laravel-recon` only for changes that reference no app-specific name (pure prose, a
   self-contained utility, a formatting tweak).
 - `laravel-verify` runs even when the change looks trivial — tier 0 (symbol existence) costs
