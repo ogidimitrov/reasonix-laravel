@@ -1,0 +1,13 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Reasonix local state.
+# This repository is the *plugin*, not a Laravel application. Reasonix writes
+# per-application state (stack profile, forged project skills) into the app it is
+# run against; that belongs to that app, not here.
+.reasonix/

@@ -1,0 +1,6 @@
+# Normalize line endings to LF in the repository.
+# The plugin's content is Markdown loaded by agents on any platform; CRLF churn
+# would produce noisy diffs and alter the measured file sizes.
+* text=auto eol=lf
+*.md text eol=lf
+*.json text eol=lf
