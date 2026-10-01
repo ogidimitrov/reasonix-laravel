@@ -58,6 +58,23 @@ public API contract, a new class family, a package choice, a migration.
 gets ignored on the changes that matter. Route it by the *reversibility* of the decision, not by the
 size of the diff.
 
+## What this gate is not
+
+**It is a convention, not a lock.** Some implementations of this pattern let a skill declare that only
+a human may invoke it. Reasonix has no such per-skill control that can be relied on, and unknown
+skill frontmatter is **silently ignored** — so writing a flag claiming otherwise would create a
+guarantee that does not exist, which is worse than stating the gap.
+
+Two consequences, plainly:
+
+- The routing condition above is **the agent's own judgement, not enforcement.** Nothing technically
+  prevents it from grilling a trivial change; only the instruction does.
+- The pinned skills index advertises every enabled skill to the model by name and description, so the
+  model can always choose to invoke this one. The routing table simply gives it no reason to.
+
+What *is* dependable: `/laravel:grill` when the user asks for it, and the checklist below when the
+skill does run.
+
 ## The gate
 
 Classify every link in the chain, honestly:
